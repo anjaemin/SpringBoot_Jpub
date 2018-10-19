@@ -1,0 +1,3 @@
+rootProject.name = 'ch03_web'
+includeFlat 'SpringBootBook_ch01'
+

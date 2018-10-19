@@ -1,0 +1,34 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+apply plugin: 'java'
+apply plugin: 'application'
+
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
+
+apply from: 'gradle/lib.gradle'
+
+group 'SpringBootBook_ch03_web'
+version '1.0-SNAPSHOT'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+compileTestJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
