@@ -5,7 +5,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = MainApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -20,6 +27,16 @@ public class RestAPITest {
         System.out.println("등록일: " + user.getRegDate() + ", " + user.getUserId() + ", " + user.getUname());
     }
 
-//    @Test
+    @Test
+    public void testGetUsers() {
+//        int port = SpringBootTest.WebEnvironment.RANDOM_PORT;
+        String url = "http://localhost:8080/user";
+        ResponseEntity<Map<String, List<User>>> result = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, List<User>>>() { });
+        Map<String, List<User>> tempMap = (Map)result.getBody();
 
+        ArrayList<User> resultArr = (ArrayList<User>)tempMap.get("result");
+        for(User user: resultArr) {
+            System.out.println(user.getUname());
+        }
+    }
 }
