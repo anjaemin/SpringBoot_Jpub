@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
+}
+
+ext{
+    springBootVersion='1.5.8.RELEASE'
+    querydslVersion = "4.1.4"
+//    generatedSourcesDir = file("${buildDir}/generated-sources")
+}
+
+group 'ch06-querydsl'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java', 'src/main/generated'
+        }
+    }
+}
+
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+    file(new File(projectDir, "/src/main/generated")).deleteDir()
+    file(new File(projectDir, "/src/main/generated")).mkdirs()
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.compileOnly
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "com.querydsl.apt.jpa.JPAAnnotationProcessor"
+    ]
+    destinationDir = file('src/main/generated')
+}
+
+compileJava {
+    dependsOn generateQueryDSL
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
+    compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    //querydsl
+    compile "com.querydsl:querydsl-core:${querydslVersion}"
+    compile "com.querydsl:querydsl-jpa:${querydslVersion}"
+    compile "com.querydsl:querydsl-apt:${querydslVersion}"
+    
+    runtime group: 'org.hsqldb', name: 'hsqldb', version: '2.3.2'
+
+    // Swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.4.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.4.0'
+
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+
+    // HATEOS
+    compile("org.springframework.boot:spring-boot-starter-hateoas")
+
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile 'junit:junit:4.12'
+}
