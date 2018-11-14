@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
+}
+
+ext {
+    springBootVersion = '1.5.8.RELEASE'
+}
+
+group 'CustomStarter'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+// 자체 실행이 필요없으므로 false로 지정
+bootRepackage.enabled = false
+
+// 다른 프로젝트에서 사용할 이름을 jar블록안에 baseName으로 지정
+jar {
+    baseName = 'spring-boot-helloService-starter'
+    version = '1.0.0-SNAPSHOT'
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '1.5.8.RELEASE'
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

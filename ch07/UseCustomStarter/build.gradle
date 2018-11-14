@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '1.5.8.RELEASE'
+    id 'application'
 }
 
 ext{
@@ -21,7 +22,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     // configurationProperties
+    compile "org.springframework.boot:spring-boot-configuration-processor"
 //    optional "org.springframework.boot:spring-boot-configuration-processor"
+    compile files('lib/spring-boot-helloService-starter-1.0.0-SNAPSHOT.jar')
 }
 
 //compileJava.dependsOn(processResources)
