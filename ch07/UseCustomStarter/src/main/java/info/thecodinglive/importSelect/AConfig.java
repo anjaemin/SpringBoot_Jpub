@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class AConfig {
     @Bean
     MyBean myBean() {
+        System.out.println("AConfig create!!");
         return new MyBean("from Aconfig");
     }
 }

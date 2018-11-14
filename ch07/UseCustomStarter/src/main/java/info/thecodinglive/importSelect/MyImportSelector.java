@@ -7,6 +7,7 @@ import org.springframework.core.type.AnnotationMetadata;
 public class MyImportSelector implements ImportSelector {
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+        System.out.println("selectImports Call!!");
         AnnotationAttributes attr = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableAutoMyModule.class.getName(), false));
         String value = attr.getString("value");
         if("someValue".equals(value)) {

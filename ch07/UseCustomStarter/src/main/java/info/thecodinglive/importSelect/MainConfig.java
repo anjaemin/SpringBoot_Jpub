@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class MainConfig {
     @Bean
     public UseMyBean useMyBean() {
+        System.out.println("userMyBean() call!!");
         return new UseMyBean();
     }
 }
