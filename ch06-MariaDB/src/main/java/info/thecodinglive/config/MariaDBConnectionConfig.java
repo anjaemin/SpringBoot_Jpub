@@ -7,12 +7,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("application.properties")
-public class MariaDBConnectionConfig {
+public class MariaDBConnectionConfig implements TransactionManagementConfigurer {
     @Value("${spring.datasource.url}")
     private String dbUrl;
     @Value("${spring.datasource.username}")
@@ -22,7 +25,7 @@ public class MariaDBConnectionConfig {
     @Value("${spring.datasource.classname}")
     private String dbClassName;
 
-    @Lazy
+    @Lazy   // 빈 생성 시점을 늦춰주는 어노테이션
     @Bean(destroyMethod = "close")
     public DataSource dataSource() {
         final HikariConfig hikariConfig = new HikariConfig();
@@ -38,4 +41,13 @@ public class MariaDBConnectionConfig {
         return dataSource;
     }
 
+    @Bean
+    public DataSourceTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
+
+    @Override
+    public PlatformTransactionManager annotationDrivenTransactionManager() {
+        return transactionManager();
+    }
 }

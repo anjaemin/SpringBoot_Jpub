@@ -18,6 +18,18 @@ repositories {
     jcenter()
 }
 
+sourceSets {
+    main {
+        java.srcDir "src/main/java"
+        resources.srcDir "src/main/resources"
+    }
+    
+    test {
+        java.srcDir "src/test/java"
+        resources.srcDir "src/test/resources"
+    }
+}
+
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.7'
     // db

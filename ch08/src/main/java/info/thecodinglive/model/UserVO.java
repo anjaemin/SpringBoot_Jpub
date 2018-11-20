@@ -1,17 +1,19 @@
 package info.thecodinglive.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class UserVO implements Serializable {
     private String id;
-    private String userName;
+    @NotNull(message = "userName 필드가 null입니다.")
+    private String username;
     private String email;
 
     public UserVO() {}
 
-    public UserVO(String id, String userName, String email) {
+    public UserVO(String id, String username, String email) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.email = email;
     }
 
@@ -24,11 +26,11 @@ public class UserVO implements Serializable {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getEmail() {
@@ -43,7 +45,7 @@ public class UserVO implements Serializable {
     public String toString() {
         return "UserVO{" +
                 "id='" + id + '\'' +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
