@@ -6,7 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.SimpleCacheManager;
+import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
+
+@EnableCaching
 @SpringBootApplication
 public class SpringCachingApp implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(SpringCachingApp.class);
@@ -30,5 +39,18 @@ public class SpringCachingApp implements CommandLineRunner {
         logger.info("no1::" + carRepository.getByName("스팅어"));
         logger.info("no1::" + carRepository.getByName("스팅어"));
         logger.info("no2::" + carRepository.getByName("k5"));
+
+        // cacheManager로 출력
+        logger.info("cacheManager::" + carRepository.getByNameWithCacheManager("스팅어"));
+        logger.info("cacheManager::" + carRepository.getByNameWithCacheManager("스팅어"));
+        logger.info("cacheManager::" + carRepository.getByNameWithCacheManager("k5"));
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        SimpleCacheManager cacheManager = new SimpleCacheManager();
+        Cache myCache = new ConcurrentMapCache("carName");
+        cacheManager.setCaches(Arrays.asList(myCache));
+        return cacheManager;
     }
 }

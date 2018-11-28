@@ -15,16 +15,16 @@ public class NonDbRepository {
     private final long sleepTime = 3000L;
     private final Logger logger = LoggerFactory.getLogger(NonDbRepository.class);
 
-    @Autowired
-    private CacheManager cacheManager;
+    /*@Autowired
+    private CacheManager cacheManager;*/
 
-    public Car getByNameWithCacheManager(String name) {
+    /*public Car getByNameWithCacheManager(String name) {
         Cache cache = cacheManager.getCache("carName");
         return randomCarColor(cache.get(name, Car.class));
-    }
+    }*/
 
 //    @Cacheable(cacheNames = "carName", key = "#name")
-    @Cacheable(cacheNames = "carName")
+    @Cacheable("carName")
     public Car getByName(String name) {
         makeSlowService();
         Car myCar = new Car(name);
